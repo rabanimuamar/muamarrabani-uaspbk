@@ -1,10 +1,14 @@
 <script setup>
-import Navbar from '@/components/Navbar.vue';
-import Header from '@/components/Header.vue';
+import { useRoute } from 'vue-router'
+import Navbar from '@/components/Navbar.vue'
+import Header from '@/components/Header.vue'
+
+const route = useRoute()
 </script>
 
 <template>
-  <Header />
+  <Header v-if="route.path === '/'" />
+
   <Navbar />
   <router-view />
 </template>

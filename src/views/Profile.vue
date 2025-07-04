@@ -1,3 +1,3 @@
 <template>
-    Profile
+    Placeholder Halaman Profile
 </template>

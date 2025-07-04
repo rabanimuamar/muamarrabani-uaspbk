@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import nasgor from '@assets/nasgor-spesial.png'
-import kopi from '@assets/kopi-hitam.png'
-import mieAyam from '@assets/mie-ayam-bakso.png'
-import jus from '@assets/jus-alpukat.png'
-import roti from '@assets/roti-bakar.png'
-import teh from '@assets/teh-es.png'
+import nasgor from '@/assets/nasgor-spesial.png'
+import kopi from '@/assets/kopi-hitam.png'
+import mieAyam from '@/assets/mie-ayam-bakso.png'
+import jus from '@/assets/jus-alpukat.png'
+import roti from '@/assets/roti-bakar.png'
+import teh from '@/assets/teh-es.png'
 
 export const useMenuStore = defineStore('menu', {
   state: () => ({

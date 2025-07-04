@@ -1,10 +1,42 @@
-[
-  {
-    "id": 1,
-    "items": [
-      { "id": 1, "nama": "Nasi Goreng", "harga": 18000, "jumlah": 2 },
-      { "id": 3, "nama": "Es Teh", "harga": 5000, "jumlah": 1 }
-    ],
-    "selesai": false
-  }
-]
+{
+  "transaksi": [
+    {
+      "id": "1751661190285",
+      "items": [
+        {
+          "id": 2,
+          "nama": "Mie Ayam Bakso",
+          "harga": 15000,
+          "jumlah": 1
+        },
+        {
+          "id": 3,
+          "nama": "Es Teh Manis",
+          "harga": 5000,
+          "jumlah": 2
+        }
+      ],
+      "selesai": true,
+      "tanggal": "2025-07-04T20:34:06.309Z"
+    },
+    {
+      "id": "1751661308339",
+      "items": [
+        {
+          "id": 1,
+          "nama": "Nasi Goreng Spesial",
+          "harga": 18000,
+          "jumlah": 1
+        },
+        {
+          "id": 5,
+          "nama": "Roti Bakar Coklat",
+          "harga": 10000,
+          "jumlah": 1
+        }
+      ],
+      "selesai": true,
+      "tanggal": "2025-07-04T20:35:15.405Z"
+    }
+  ]
+}

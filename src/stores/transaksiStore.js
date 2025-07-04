@@ -9,20 +9,21 @@ export const useTransaksiStore = defineStore('transaksi', {
   }),
 
   getters: {
+    // Hanya transaksi aktif (keranjang)
     keranjang(state) {
-      return state.transaksi.filter(t => !t.selesai)
+      return state.transaksi.find(t => !t.selesai) || null
     },
 
+    // Transaksi selesai (riwayat)
     riwayat(state) {
       return state.transaksi.filter(t => t.selesai)
     },
 
+    // Total harga keranjang
     totalKeranjang(state) {
-      return state.transaksi
-        .filter(t => !t.selesai)
-        .reduce((total, t) => {
-          return total + t.items.reduce((sum, item) => sum + item.harga * item.jumlah, 0)
-        }, 0)
+      const keranjang = state.transaksi.find(t => !t.selesai)
+      if (!keranjang) return 0
+      return keranjang.items.reduce((total, item) => total + item.harga * item.jumlah, 0)
     }
   },
 
@@ -38,38 +39,41 @@ export const useTransaksiStore = defineStore('transaksi', {
 
     async tambahItemKeKeranjang(itemBaru) {
       await this.fetchTransaksi()
-      let keranjangAktif = this.transaksi.find(t => !t.selesai)
+      let keranjang = this.transaksi.find(t => !t.selesai)
 
-      // Jika belum ada keranjang aktif, buat baru
-      if (!keranjangAktif) {
-        keranjangAktif = {
-          id: Date.now(),
+      if (!keranjang) {
+        keranjang = {
+          id: Date.now().toString(),
           items: [itemBaru],
           selesai: false
         }
-        const res = await axios.post(API_URL, keranjangAktif)
+        const res = await axios.post(API_URL, keranjang)
         this.transaksi.push(res.data)
       } else {
-        // Tambah ke keranjang aktif
-        const existingItem = keranjangAktif.items.find(item => item.id === itemBaru.id)
-        if (existingItem) {
-          existingItem.jumlah += itemBaru.jumlah
+        const existing = keranjang.items.find(item => item.id === itemBaru.id)
+        if (existing) {
+          existing.jumlah += itemBaru.jumlah
         } else {
-          keranjangAktif.items.push(itemBaru)
+          keranjang.items.push(itemBaru)
         }
-        await axios.put(`${API_URL}/${keranjangAktif.id}`, keranjangAktif)
-        this.transaksi = this.transaksi.map(t => (t.id === keranjangAktif.id ? keranjangAktif : t))
+        await axios.put(`${API_URL}/${keranjang.id}`, keranjang)
+        this.transaksi = this.transaksi.map(t => (t.id === keranjang.id ? keranjang : t))
       }
     },
 
-    async hapusItemKeranjang(idTransaksi, idItem) {
+    async hapusItem(idTransaksi, idItem) {
       const transaksi = this.transaksi.find(t => t.id === idTransaksi)
       if (!transaksi) return
 
       transaksi.items = transaksi.items.filter(item => item.id !== idItem)
 
-      await axios.put(`${API_URL}/${idTransaksi}`, transaksi)
-      this.transaksi = this.transaksi.map(t => (t.id === idTransaksi ? transaksi : t))
+      if (transaksi.items.length === 0) {
+        await axios.delete(`${API_URL}/${idTransaksi}`)
+        this.transaksi = this.transaksi.filter(t => t.id !== idTransaksi)
+      } else {
+        await axios.put(`${API_URL}/${idTransaksi}`, transaksi)
+        this.transaksi = this.transaksi.map(t => (t.id === idTransaksi ? transaksi : t))
+      }
     },
 
     async selesaikanTransaksi(idTransaksi) {
@@ -81,6 +85,12 @@ export const useTransaksiStore = defineStore('transaksi', {
 
       await axios.put(`${API_URL}/${idTransaksi}`, transaksi)
       this.transaksi = this.transaksi.map(t => (t.id === idTransaksi ? transaksi : t))
+    },
+
+    async checkout() {
+      const keranjang = this.transaksi.find(t => !t.selesai)
+      if (!keranjang) return
+      await this.selesaikanTransaksi(keranjang.id)
     }
   }
 })
