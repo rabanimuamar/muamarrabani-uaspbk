@@ -7,7 +7,7 @@ const navItems = [
     { to: '/', label: 'Menu', name: 'menu' },
     { to: '/keranjang', label: 'Keranjang', name: 'keranjang' },
     { to: '/pesanan', label: 'Pesanan', name: 'pesanan' },
-    { to: '/profil', label: 'Profil', name: 'profil' }
+    { to: '/profile', label: 'Profile', name: 'profile' }
 ]
 
 const isActive = (path) => route.path === path
@@ -25,7 +25,7 @@ const isActive = (path) => route.path === path
 
                 <!-- Menu -->
                 <div class="flex space-x-6">
-                    <RouterLink v-for="item in navItems" :key="item.name" :to="item.to"
+                    <RouterLink v-for="item in navItems" :key="item.name" :to="{name: item.name}"
                         class="text-gray-600 hover:text-blue-600 font-medium px-3 py-2 transition duration-150 ease-in-out"
                         :class="{
                             'text-blue-600 font-bold border-b-2 border-blue-500': isActive(item.to)
