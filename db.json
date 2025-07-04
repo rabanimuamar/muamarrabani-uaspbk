@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "items": [
+      { "id": 1, "nama": "Nasi Goreng", "harga": 18000, "jumlah": 2 },
+      { "id": 3, "nama": "Es Teh", "harga": 5000, "jumlah": 1 }
+    ],
+    "selesai": false
+  }
+]
