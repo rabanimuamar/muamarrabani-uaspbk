@@ -31,7 +31,7 @@ const riwayat = computed(() => transaksiStore.riwayat)
     <!-- Riwayat List -->
     <div v-if="riwayat.length > 0" class="max-w-4xl mx-auto space-y-6">
       <div
-        v-for="transaksi in riwayat"
+        v-for="transaksi in riwayat.reverse()"
         :key="transaksi.id"
         class="bg-white border border-gray-200 rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
       >
