@@ -1,6 +1,9 @@
 <script setup>
 import { useTransaksiStore } from '@/stores/transaksiStore'
 import { computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const transaksiStore = useTransaksiStore()
 
@@ -132,12 +135,12 @@ const checkout = async () => {
           </div>
         </div>
         
-        <router-link 
-          to="/" 
+        <button 
+            @click="router.push('/')"
           class="inline-block bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
         >
           🍽️ Lihat Menu
-        </router-link>
+        </button>
       </div>
     </div>
   </div>
